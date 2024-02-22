@@ -45,3 +45,10 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = "__all__"
+        
+        
+class GustisForm(forms.ModelForm):
+    class Meta:
+        model = Gustis
+        fields = "__all__"
+        

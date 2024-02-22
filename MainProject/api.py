@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view,permission_classes,authentication
 from .forms import *
 from .models import *
 from datetime import date,datetime,timedelta
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
 
 
 # def send_email_view(request):
@@ -279,11 +279,7 @@ def change_status_booking(request,id):
 @authentication_classes([])
 def get_all_booking(request):
     booking = Booking.objects.all()
-    # subject = 'Hello from Django!'
-    # message = 'This is a test email sent from Django.'
-    # recipient_list = ['king.rab99@gmail.com',]
-    # send_mail(subject, message,'info@fezzantechx.ly', recipient_list,fail_silently=False,)
-    # return HttpResponse('Email sent successfully.')
+    
     return JsonResponse({'status':True,'data':BookingSerializer(booking,many=True).data})
 
 @api_view(['GET'])
@@ -338,4 +334,49 @@ def get_all_project(request):
     
     return JsonResponse({'status':True,'data':ProjectSerializer(project,many=True).data})
 
+import random
+import segno
+@api_view(['POST'])
+@permission_classes([])
+@authentication_classes([])
+def create_Gustis(request):
+    form = GustisForm(request.data,request.FILES)
+    
+    if form.is_valid():
+        check = True
+        while(check):
+            rand = "FZ"+str(random.randrange(10,9999))
+            check = Gustis.objects.filter(id_user = rand).exists()
+        gustis = form.save(commit=False)
+        gustis.id_user = rand
+        gustis.save()
+        qrcode = segno.make_qr(gustis.id_user)
+        qrcode.save(f"media/{gustis.id_user}.png")
+    else:
+        return JsonResponse({'status':False,'error':form.errors})
+    return JsonResponse({'status':True,'data':GustisSerializer(gustis).data,'img': gustis.id_user})
 
+@api_view(['GET'])
+@permission_classes([])
+@authentication_classes([])
+def change_status_Gustis(request,id):
+    gustis =Gustis.objects.get(pk=id)
+    gustis.status = request.GET['status']
+    gustis.save()
+    return JsonResponse({'status':True})
+
+@api_view(['GET'])
+@permission_classes([])
+@authentication_classes([])
+def get_all_Gustis(request):
+    
+    gustis = Gustis.objects.all()
+    
+    return JsonResponse({'status':True,'data':GustisSerializer(gustis,many=True).data})
+
+@api_view(['GET'])
+@permission_classes([])
+@authentication_classes([])
+def printQr(request,id):
+    
+    return JsonResponse({'img':'https://mapi.fezzantechx.ly/media/'+id+'.png'})

@@ -42,3 +42,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = "__all__"
+class GustisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gustis
+        fields = "__all__"

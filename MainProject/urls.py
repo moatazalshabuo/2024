@@ -44,5 +44,9 @@ urlpatterns = [
     path('create_project',create_project),
     path('change_status_project/<int:id>',change_status_project),
     path('get_all_project',get_all_project),
+    path('create_Gustis',create_Gustis),
+    # path('change_status_Gustis/<int:id>',change_status_Gustis),
+    path('get_all_Gustis',get_all_Gustis),
+    path('printQr/<str:id>',printQr)
 ]
 
