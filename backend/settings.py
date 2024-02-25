@@ -48,7 +48,7 @@ JWT_AUTH = {
     # Authorization:Token xxx
     'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:8080',
@@ -146,6 +146,14 @@ DATABASES = {
      }
 }
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'mail.fezzantechx.ly'  # e.g., 'smtp.example.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'info@fezzantechx.ly'  # Your cPanel email address
+EMAIL_HOST_PASSWORD = 'Fezzan@2024'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

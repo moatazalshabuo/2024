@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view,permission_classes,authentication
 from .forms import *
 from .models import *
 from datetime import date,datetime,timedelta
-# from django.core.mail import send_mail
+from django.core.mail import send_mail
 
 
 # def send_email_view(request):
@@ -323,7 +323,141 @@ def change_status_project(request,id):
     project = Project.objects.get(pk=id)
     project.status = request.GET['status']
     project.save()
-    return JsonResponse({'status':True})
+    b1 = ""
+    b2 = ''
+    if project.status is '2':
+        b1 ='<p>تمت الموافقة على مشروعك من قبل اللجنة المنظمة</p>'
+        b2 = "تاكيد الاشتراك"
+    elif project.status is '3':
+        b1 ='<p>لم تمت الموافقة على مشروعك من قبل اللجنة المنظمة</p>'
+        b2 = "ناسف على عدم الموافقة"
+    if b1 != '' and b2 != '':
+        body = '''<div role="document" tabindex="-1" aria-label="Message body" class="XbIp4 jmmB7 GNqVo allowTextSelection OuGoX"
+    id="UniqueMessageBody">
+    <div>
+        <style>
+        p{
+         font-weight: bold;
+    font-family: system-ui;
+    margin:0px;padding:px;   
+        }
+          
+        </style>
+        <div class="rps_62be">
+            <div lang="EN-US" link="#0563C1" vlink="#954F72" style="word-wrap:break-word;background-color:#fff">
+                <div class="x_WordSection1">
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal"><b><span
+                                style="font-size:12.0pt; color:#FF8E14; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal"><b><span
+                                style="font-size:12.0pt; color:#00467D; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">المشارك : '''+project.name+''' </span></b>
+                        <span
+                            dir="RTL"></span><span dir="RTL"></span><b><span
+                                style="font-size:12.0pt; color:#222222; background:white"><span dir="RTL"></span><span
+                                    dir="RTL"></span> </span></b><b><span dir="LTR"
+                                style="font-size:12.0pt; color:#222222; background:white"></span></b></p>
+                    <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">رقم التسجيل : '''+ str(project.id) +'''
+                            </span></b></p>
+                            <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">المشروع : '''+ project.project_title +'''
+                            </span></b></p>
+                            <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">''' +b1+ '''
+                            </span></b></p>
+                    <p class="x_MsoNormal"><b><span lang="HE" dir="RTL"
+                                style="font-size:12.0pt; color:#FF8E14; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">مع اطيب
+                                التحيات</span></b><b><span
+                                style="font-size:12.0pt; color:#222222; background:white"></span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">فريق تنظيم ملتقى فزان
+                                التقني</span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">#</span></b><b><span
+                                style="font-size:12.0pt; color:#222222; background:white">FezzanTechX</span></b><b><span
+                                lang="AR-LY" dir="RTL"
+                                style="font-family:&quot;Arial&quot;,sans-serif; color:#222222"></span></b></p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <table class="x_MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="529"
+                        style="width:396.6pt; background:white; border-collapse:collapse">
+                        <tbody>
+                            <tr style="height:18.9pt">
+                                <td width="104" valign="top"
+                                    style="width:78.1pt; border:none; border-right:solid #F6AE2D 1.0pt; padding:.75pt 7.5pt .75pt .75pt; height:18.9pt">
+                                    <p class="x_MsoNormal"><span style="color:#201F1E"><img
+                                                data-imagetype="AttachmentByCid"
+                                                originalsrc="cid:image001.png@01DA65C1.62796F70"
+                                                data-custom="AAMkADQxOTlhZTc4LWNkYzAtNDRiMS1iMDg0LTMwZjUxYzhjNzAyMABGAAAAAAACHKewdMUuTpk0LHaGZeivBwBi0P%2BdroKbR5BeGFganDWDAAAAAAEMAABi0P%2BdroKbR5BeGFganDWDAAAdTjiAAAABEgAQADIVDhXs09BPp0jnCHSTcos%3D"
+                                                naturalheight="0" naturalwidth="0"
+                                                src='https://fezzantechx.ly/wp-content/uploads/2024/02/Asset-18-1024x449.png'
+                                                width="301" height="132" id="x__x0635__x0648__x0631__x0629__x0020_1"
+                                                style="width: 3.1354in; height: 1.375in; cursor: pointer; min-height: auto; min-width: auto;"
+                                                crossorigin="use-credentials" fetchpriority="high"
+                                                class="Do8Zj"></span><span style=""></span></p>
+                                </td>
+                                <td width="425" style="width:318.5pt; padding:.75pt .75pt .75pt 7.5pt; height:18.9pt">
+                                    <table class="x_MsoNormalTable" border="0" cellspacing="0" cellpadding="0"
+                                        style="border-collapse:collapse">
+                                        <tbody>
+                                            <tr style="height:17.25pt">
+                                                <td width="273" valign="top"
+                                                    style="width:204.6pt; padding:.75pt .75pt 3.75pt 7.5pt; height:17.25pt">
+                                                    <p class="x_MsoNormal"><b><span
+                                                                style="font-size:16.0pt; font-family:Roboto; color:#222222">Fezzan
+                                                                Tech Expo</span></b><span
+                                                            style="font-size:16.0pt; font-family:Roboto; color:#222222"></span>
+                                                    </p>
+                                                </td>
+                                                <td width="141" valign="top"
+                                                    style="width:105.65pt; padding:.75pt .75pt 3.75pt 7.5pt; height:17.25pt">
+                                                </td>
+                                            </tr>
+                                            <tr style="height:58.5pt">
+                                                <td width="273" valign="top"
+                                                    style="width:204.6pt; padding:3.75pt .75pt 3.75pt 7.5pt; height:58.5pt">
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222">E:</span></b><span
+                                                            style="font-size:12.0pt; color:#222222">&nbsp;<a
+                                                                href="mailto:info@zallaf.ly" data-linkindex="0"><span
+                                                                    style="color:#222222">info@fezzantechx.ly</span><span
+                                                                    style="color:#222222"></span></a></span></p>
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222">W:</span></b><u><span
+                                                                style="font-size:12.0pt; color:#222222"><a
+                                                                    href="http://&nbsp;www.fezzantechx.ly"
+                                                                    target="_blank" rel="noopener noreferrer"
+                                                                    data-auth="NotApplicable" data-linkindex="1"><span
+                                                                        style="color:#222222">&nbsp;www.fezzantechx.ly</span></a></span></u><span
+                                                            style="font-size:12.0pt; color:#222222"></span></p>
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222; background:white">MO:</span></b><span
+                                                            style="font-size:12.0pt; color:#222222; background:white">&nbsp;218-925315300.</span><span
+                                                            style="color:#222222"></span></p>
+                                                </td>
+                                                <td width="141"
+                                                    style="width:105.65pt; padding:.75pt .75pt .75pt .75pt; height:58.5pt">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>'''
+        send_mail(b2, '', 'info@fezzantechx.ly', [project.email],html_message=body)
+    return JsonResponse({'status':True,'st':project.status})
 
 @api_view(['GET'])
 @permission_classes([])
@@ -350,8 +484,129 @@ def create_Gustis(request):
         gustis = form.save(commit=False)
         gustis.id_user = rand
         gustis.save()
-        qrcode = segno.make_qr(gustis.id_user)
-        qrcode.save(f"media/{gustis.id_user}.png")
+        body = '''<div role="document" tabindex="-1" aria-label="Message body" class="XbIp4 jmmB7 GNqVo allowTextSelection OuGoX"
+    id="UniqueMessageBody">
+    <div>
+        <style>
+        p{
+         font-weight: bold;
+    font-family: system-ui;
+    margin:0px;padding:px;   
+        }
+          
+        </style>
+        <div class="rps_62be">
+            <div lang="EN-US" link="#0563C1" vlink="#954F72" style="word-wrap:break-word;background-color:#fff">
+                <div class="x_WordSection1">
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal"><b><span
+                                style="font-size:12.0pt; color:#FF8E14; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal"><b><span
+                                style="font-size:12.0pt; color:#00467D; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">المشارك : '''+gustis.name+''' </span></b>
+                        <span
+                            dir="RTL"></span><span dir="RTL"></span><b><span
+                                style="font-size:12.0pt; color:#222222; background:white"><span dir="RTL"></span><span
+                                    dir="RTL"></span> </span></b><b><span dir="LTR"
+                                style="font-size:12.0pt; color:#222222; background:white"></span></b></p>
+                    <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">رقم التسجيل : '''+ gustis.id_user +'''
+                            </span></b></p>
+                            <p class="x_MsoNormal" dir="RTL" style="text-align:right; direction:rtl; unicode-bidi:embed">
+                        <b><span lang="AR-LY" style="font-size:12.0pt; color:#222222; background:white">الرجاء الاحتفاظ برقم التسجيل الذي سيمكنك من الدخول في السحب
+                            </span></b></p>
+                            
+                    <p class="x_MsoNormal"><b><span lang="HE" dir="RTL"
+                                style="font-size:12.0pt; color:#FF8E14; background:white">&nbsp;</span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">مع اطيب
+                                التحيات</span></b><b><span
+                                style="font-size:12.0pt; color:#222222; background:white"></span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">فريق تنظيم ملتقى فزان
+                                التقني</span></b></p>
+                    <p class="x_MsoNormal" align="right" style="text-align:right"><b><span lang="AR-LY" dir="RTL"
+                                style="font-size:12.0pt; color:#222222; background:white">#</span></b><b><span
+                                style="font-size:12.0pt; color:#222222; background:white">FezzanTechX</span></b><b><span
+                                lang="AR-LY" dir="RTL"
+                                style="font-family:&quot;Arial&quot;,sans-serif; color:#222222"></span></b></p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <table class="x_MsoNormalTable" border="0" cellspacing="0" cellpadding="0" width="529"
+                        style="width:396.6pt; background:white; border-collapse:collapse">
+                        <tbody>
+                            <tr style="height:18.9pt">
+                                <td width="104" valign="top"
+                                    style="width:78.1pt; border:none; border-right:solid #F6AE2D 1.0pt; padding:.75pt 7.5pt .75pt .75pt; height:18.9pt">
+                                    <p class="x_MsoNormal"><span style="color:#201F1E"><img
+                                                data-imagetype="AttachmentByCid"
+                                                originalsrc="cid:image001.png@01DA65C1.62796F70"
+                                                data-custom="AAMkADQxOTlhZTc4LWNkYzAtNDRiMS1iMDg0LTMwZjUxYzhjNzAyMABGAAAAAAACHKewdMUuTpk0LHaGZeivBwBi0P%2BdroKbR5BeGFganDWDAAAAAAEMAABi0P%2BdroKbR5BeGFganDWDAAAdTjiAAAABEgAQADIVDhXs09BPp0jnCHSTcos%3D"
+                                                naturalheight="0" naturalwidth="0"
+                                                src='https://fezzantechx.ly/wp-content/uploads/2024/02/Asset-18-1024x449.png'
+                                                width="301" height="132" id="x__x0635__x0648__x0631__x0629__x0020_1"
+                                                style="width: 3.1354in; height: 1.375in; cursor: pointer; min-height: auto; min-width: auto;"
+                                                crossorigin="use-credentials" fetchpriority="high"
+                                                class="Do8Zj"></span><span style=""></span></p>
+                                </td>
+                                <td width="425" style="width:318.5pt; padding:.75pt .75pt .75pt 7.5pt; height:18.9pt">
+                                    <table class="x_MsoNormalTable" border="0" cellspacing="0" cellpadding="0"
+                                        style="border-collapse:collapse">
+                                        <tbody>
+                                            <tr style="height:17.25pt">
+                                                <td width="273" valign="top"
+                                                    style="width:204.6pt; padding:.75pt .75pt 3.75pt 7.5pt; height:17.25pt">
+                                                    <p class="x_MsoNormal"><b><span
+                                                                style="font-size:16.0pt; font-family:Roboto; color:#222222">Fezzan
+                                                                Tech Expo</span></b><span
+                                                            style="font-size:16.0pt; font-family:Roboto; color:#222222"></span>
+                                                    </p>
+                                                </td>
+                                                <td width="141" valign="top"
+                                                    style="width:105.65pt; padding:.75pt .75pt 3.75pt 7.5pt; height:17.25pt">
+                                                </td>
+                                            </tr>
+                                            <tr style="height:58.5pt">
+                                                <td width="273" valign="top"
+                                                    style="width:204.6pt; padding:3.75pt .75pt 3.75pt 7.5pt; height:58.5pt">
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222">E:</span></b><span
+                                                            style="font-size:12.0pt; color:#222222">&nbsp;<a
+                                                                href="mailto:info@zallaf.ly" data-linkindex="0"><span
+                                                                    style="color:#222222">info@fezzantechx.ly</span><span
+                                                                    style="color:#222222"></span></a></span></p>
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222">W:</span></b><u><span
+                                                                style="font-size:12.0pt; color:#222222"><a
+                                                                    href="http://&nbsp;www.fezzantechx.ly"
+                                                                    target="_blank" rel="noopener noreferrer"
+                                                                    data-auth="NotApplicable" data-linkindex="1"><span
+                                                                        style="color:#222222">&nbsp;www.fezzantechx.ly</span></a></span></u><span
+                                                            style="font-size:12.0pt; color:#222222"></span></p>
+                                                    <p class="x_MsoNormal" style="line-height:12.75pt"><b><span
+                                                                style="font-size:12.0pt; color:#222222; background:white">MO:</span></b><span
+                                                            style="font-size:12.0pt; color:#222222; background:white">&nbsp;218-925315300.</span><span
+                                                            style="color:#222222"></span></p>
+                                                </td>
+                                                <td width="141"
+                                                    style="width:105.65pt; padding:.75pt .75pt .75pt .75pt; height:58.5pt">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                    <p class="x_MsoNormal" aria-hidden="true">&nbsp;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>'''
+        send_mail("ملتقى فزان التقني 2024", '', 'info@fezzantechx.ly', [gustis.email],html_message=body)
     else:
         return JsonResponse({'status':False,'error':form.errors})
     return JsonResponse({'status':True,'data':GustisSerializer(gustis).data,'img': gustis.id_user})

@@ -85,15 +85,12 @@ class Project(models.Model):
     universty = models.CharField(blank=True, null=True,max_length=100)
     status = models.IntegerField(default=1,blank=True, null=True)
     detiles = models.TextField(blank=True, null=True)
+    class Meta:
+        ordering = ["-id"]
 
 class Gustis(models.Model):
     name = models.CharField(max_length=50)
     phone = models.FloatField()
     id_user = models.CharField(max_length=25,blank=True, null=True)
     status = models.IntegerField(default=1,blank=True, null=True)
-    qr = models.ImageField(upload_to='Qr_code/',blank=True,null=True)
-    # detiles = models.TextField(blank=True, null=True)
-    
-    def get_img(self):
-        if self.qr:
-            return url+self.qr.url
+    email = models.EmailField(blank=True, null=True, max_length=254)
