@@ -52,3 +52,12 @@ class GustisForm(forms.ModelForm):
         model = Gustis
         fields = "__all__"
         
+class CloudsForm(forms.ModelForm):
+    class Meta:
+        model = Clouds
+        fields = "__all__"
+        
+class PlayersForm(forms.ModelForm):
+    class Meta:
+        model = Players
+        fields = "__all__"

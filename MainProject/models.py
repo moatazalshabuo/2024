@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 # Create your models here.
 
 url = 'https://mapi.fezzantechx.ly'
@@ -90,7 +90,27 @@ class Project(models.Model):
 
 class Gustis(models.Model):
     name = models.CharField(max_length=50)
-    phone = models.FloatField()
+    phone = models.FloatField(unique=True)
     id_user = models.CharField(max_length=25,blank=True, null=True)
     status = models.IntegerField(default=1,blank=True, null=True)
     email = models.EmailField(blank=True, null=True, max_length=254)
+    
+    
+class Clouds(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=50)
+    type = models.CharField(max_length=20,blank=True, null=True)
+    descripe = models.TextField(blank=True, null=True)
+    status = models.IntegerField(default=0,blank=True, null=True)
+    
+class CloudsGustis(models.Model):
+    clouds = models.ForeignKey(Clouds,on_delete=models.CASCADE)
+    gusti = models.ForeignKey(Gustis,on_delete=models.CASCADE)
+    status = models.BooleanField(default=False,blank=True, null=True)
+    
+class Players(models.Model):
+    name = models.CharField(max_length=50)
+    phone = models.FloatField(unique=True)
+    status = models.IntegerField(default=1,blank=True, null=True)
+    type = models.CharField(blank=True, null=True, max_length=254)
+    

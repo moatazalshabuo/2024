@@ -40,13 +40,21 @@ urlpatterns = [
     path('get_all_booking',get_all_booking),
     path('check_book',check_book),
      path('change_sutter',change_sutter),
-      #============= project ================
+    #=========================== project ================================
     path('create_project',create_project),
     path('change_status_project/<int:id>',change_status_project),
     path('get_all_project',get_all_project),
     path('create_Gustis',create_Gustis),
     # path('change_status_Gustis/<int:id>',change_status_Gustis),
     path('get_all_Gustis',get_all_Gustis),
-    path('printQr/<str:id>',printQr)
+    #=========================== clouds ====================================
+    path('create_clouds',create_clouds),
+    path('get_clouds',get_clouds),
+    path('get_cloud/<uuid:id>',get_cloud),
+    path('change_status_clouds',change_status_clouds),
+    path('cloud_gusti',create_cloud_guist),
+    path('create_player',create_Player),
+    # path('change_status_Gustis/<int:id>',change_status_Gustis),
+    path('get_all_player',get_all_Player),
 ]
 

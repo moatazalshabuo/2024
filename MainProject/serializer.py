@@ -46,3 +46,20 @@ class GustisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gustis
         fields = "__all__"
+
+class CloudsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Clouds
+        fields = "__all__"
+        
+class CloudsGustiSerializer(serializers.ModelSerializer):
+    clouds = CloudsSerializer(read_only=True)
+    gusti = GustisSerializer(read_only=True)
+    class Meta:
+        model = CloudsGustis
+        fields = "__all__"
+        
+class PlayersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Players
+        fields = "__all__"
