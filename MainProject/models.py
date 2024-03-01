@@ -101,6 +101,7 @@ class Clouds(models.Model):
     title = models.CharField(max_length=50)
     type = models.CharField(max_length=20,blank=True, null=True)
     descripe = models.TextField(blank=True, null=True)
+    img = models.CharField(max_length=250,blank=True, null=True)
     status = models.IntegerField(default=0,blank=True, null=True)
     
 class CloudsGustis(models.Model):

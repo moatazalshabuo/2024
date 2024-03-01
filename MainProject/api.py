@@ -5,6 +5,8 @@ from .forms import *
 from .models import *
 from datetime import date,datetime,timedelta
 from django.core.mail import send_mail
+import qrcode
+import qrcode.image.svg
 
 
 # def send_email_view(request):
@@ -66,7 +68,8 @@ def update_organizers(request,id):
 @authentication_classes([])
 def get_organizers(request):
     besc_data = Organizers.objects.all()
-    return JsonResponse({'data':OrganizersSerializer(besc_data,many=True).data})
+    
+    return JsonResponse({'data':OrganizersSerializer(besc_data,many=True).data,'img':img})
 
 
 @api_view(['GET'])
@@ -506,12 +509,31 @@ def get_all_Gustis(request):
     
     return JsonResponse({'status':True,'data':GustisSerializer(gustis,many=True).data})
 
+from django.conf import settings
+import os
 
 @api_view(['POST'])
 def create_clouds(request):
     form = CloudsForm(request.data or None)
     if form.is_valid():
         cloud = form.save()
+        qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+        )
+        qr.add_data(f'http://mapi.fezzantechx.ly/new-ballot/{cloud.id}/')  # Replace "Your data here" with the data you want to encode
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        # Save the QR code image to the media directory
+        rad = random.randint(0,20000000)
+        file_path = os.path.join(settings.MEDIA_ROOT, 'qrcodes',f'{rad}.png')
+        img.save(file_path)
+        cloud.img = f"http://mapi.fezzantechx.ly/media/qrcodes/{rad}.png"
+        cloud.save()
+        
         return JsonResponse({'status':True,'data':CloudsSerializer(cloud).data})
     else:
         return JsonResponse({'status':False,'error':form.errors})
