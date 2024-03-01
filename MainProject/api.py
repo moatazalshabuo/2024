@@ -325,10 +325,10 @@ def change_status_project(request,id):
     project.save()
     b1 = ""
     b2 = ''
-    if project.status is 2:
+    if project.status == 2:
         b1 ='<p>تمت الموافقة على مشروعك من قبل اللجنة المنظمة</p>'
         b2 = "تاكيد الاشتراك"
-    elif project.status is 3:
+    elif project.status == 3:
         b1 ='<p>لم تمت الموافقة على مشروعك من قبل اللجنة المنظمة</p>'
         b2 = "ناسف على عدم الموافقة"
     if b1 != '' and b2 != '':
